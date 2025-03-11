@@ -24,8 +24,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `;
 
-              // Actualizar el contador de ronda
-        contadorRondaDiv.innerHTML = `<div class="alert alert-secondary">Ronda: ${juego.numeroRonda}</div>`;
+            // Actualizar el contador de ronda
+            contadorRondaDiv.innerHTML = `<div class="alert alert-secondary">Ronda: ${juego.numeroRonda}</div>`;
+
+            if(juego.esFinDeTurno()){
+                contadorRondaDiv.classList.add('highlight');
+
+                            // Quitar la clase después de la animación
+                setTimeout(() => {
+                    contadorRondaDiv.classList.remove('highlight');
+                }, 500);
+            }
         }
     }
 
@@ -47,6 +56,13 @@ document.addEventListener("DOMContentLoaded", () => {
         resultadoDiv.innerHTML = "";
         actualizarMarcador();
         btnJugar.disabled = false;
+
+        actualizarMarcador(); // Esto ahora también inicializará el contador de ronda
+        contadorRondaDiv.style.display = "block"; // Asegurarse de que sea visible
+
+        // Mostrar el jugador actual
+        let currentPlayerName = juego.currentPlayer.nombre;
+        currentPlayer.innerHTML = `<h4 id="current-player">Turno de: ${currentPlayerName}</h4>`;
     });
     
 
@@ -59,11 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // Usar la función de animación con los valores finales de los dados
         animarDados(juego.dado1.puntos, juego.dado2.puntos);
 
-        actualizarMarcador();
-
-        // Indicate whose turn it is
-        let currentPlayerName = juego.currentPlayer.nombre;
-        currentPlayer.innerHTML = `<h2 id="current-player">Turno de: ${currentPlayerName}</div>`;
     // Verificar victoria solo al final de una ronda (después del turno del jugador 2)
     if (juego.esFinDeTurno()) {
     // Check if a player has won (more than 5 points)
@@ -132,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     // Mostrar el jugador actual
                     let currentPlayerName = juego.currentPlayer.nombre;
-                    currentPlayer.innerHTML = `<h2 id="current-player">Turno de: ${currentPlayerName}</h2>`;
+                    currentPlayer.innerHTML = `<h4 id="current-player">Turno de: ${currentPlayerName}</h4>`;
                     
                     // Verificar victoria solo al final de una ronda
                     if (juego.esFinDeTurno()) {

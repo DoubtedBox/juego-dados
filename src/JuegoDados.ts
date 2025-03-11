@@ -15,6 +15,7 @@ export class JuegoDados {
     private bandJugador: boolean;
     private esFinDeRonda: boolean; // true cuando el jugador 2 ha terminado su turno
     public numeroRonda: number;
+    private turnosJugados: number; // Para contar turnos dentro de una ronda
 
     constructor(nombreJugador1: string, nombreJugador2: string) {
         this.jugador1 = new Jugador();
@@ -35,6 +36,7 @@ export class JuegoDados {
         this.elegirPrimerLanzador();
         this.currentPlayer = this.bandJugador ? this.jugador1 : this.jugador2;
         this.numeroRonda = 1; // Iniciar en ronda 1
+        this.turnosJugados = 0; // Iniciar en 0 turnos jugados
     }
 
     public elegirPrimerLanzador(): void{
@@ -53,17 +55,23 @@ export class JuegoDados {
         // Actualizar puntuación según quién es el jugador actual
         if (this.bandJugador) {
             this.marcadorJugador1 += this.jugador1.puntoGanado;
-            this.esFinDeRonda = false; // Turno del jugador 1, no es fin de ronda
         } else {
             this.marcadorJugador2 += this.jugador2.puntoGanado;
-            this.esFinDeRonda = true; // Turno del jugador 2, es fin de ronda
+        }
+    
+        // Incrementar contador de turnos
+        this.turnosJugados++;
+        
+        // Verificar si es fin de ronda (cuando ambos jugadores han jugado)
+        this.esFinDeRonda = this.turnosJugados % 2 === 0;
+        
+        // Si es fin de ronda, incrementar el número de ronda
+        if (this.esFinDeRonda) {
             this.numeroRonda++;
         }
         
         // Cambiar turno para la próxima vez
         this.bandJugador = !this.bandJugador;
-        // Actualizar quién será el próximo jugador
-        this.currentPlayer = this.bandJugador ? this.jugador1 : this.jugador2;
     }
 
     public esFinDeTurno(): boolean {
@@ -72,10 +80,10 @@ export class JuegoDados {
 
     public determinarVencedor(): Jugador{
 
-                // Solo determinar ganador si estamos al final de una ronda
-                if (!this.esFinDeRonda) {
-                    return null;
-                }
+        // Solo determinar ganador si estamos al final de una ronda
+        if (!this.esFinDeRonda) {
+            return null;
+        }
 
         // Caso de empate
         if((this.marcadorJugador1 > 5) && (this.marcadorJugador2 > 5))

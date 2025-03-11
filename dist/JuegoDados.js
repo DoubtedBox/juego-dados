@@ -17,6 +17,8 @@ export class JuegoDados {
         // Set initial player
         this.elegirPrimerLanzador();
         this.currentPlayer = this.bandJugador ? this.jugador1 : this.jugador2;
+        this.numeroRonda = 1; // Iniciar en ronda 1
+        this.turnosJugados = 0; // Iniciar en 0 turnos jugados
     }
     elegirPrimerLanzador() {
         this.bandJugador = Math.floor(Math.random() * 2) == 1;
@@ -30,16 +32,20 @@ export class JuegoDados {
         // Actualizar puntuación según quién es el jugador actual
         if (this.bandJugador) {
             this.marcadorJugador1 += this.jugador1.puntoGanado;
-            this.esFinDeRonda = false; // Turno del jugador 1, no es fin de ronda
         }
         else {
             this.marcadorJugador2 += this.jugador2.puntoGanado;
-            this.esFinDeRonda = true; // Turno del jugador 2, es fin de ronda
+        }
+        // Incrementar contador de turnos
+        this.turnosJugados++;
+        // Verificar si es fin de ronda (cuando ambos jugadores han jugado)
+        this.esFinDeRonda = this.turnosJugados % 2 === 0;
+        // Si es fin de ronda, incrementar el número de ronda
+        if (this.esFinDeRonda) {
+            this.numeroRonda++;
         }
         // Cambiar turno para la próxima vez
         this.bandJugador = !this.bandJugador;
-        // Actualizar quién será el próximo jugador
-        this.currentPlayer = this.bandJugador ? this.jugador1 : this.jugador2;
     }
     esFinDeTurno() {
         return this.esFinDeRonda;

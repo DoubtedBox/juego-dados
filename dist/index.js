@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dado1Img = document.getElementById("dado1");
     const dado2Img = document.getElementById("dado2");
     const currentPlayer = document.getElementById("current-player");
+    const contadorRondaDiv = document.getElementById("contador-ronda");
     let juego = null;
     // Función para actualizar la interfaz con el marcador
     function actualizarMarcador() {
@@ -20,6 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${juego.jugador2.nombre}: ${juego.marcadorJugador2} puntos
                 </div>
             `;
+            // Actualizar el contador de ronda
+            contadorRondaDiv.innerHTML = `<div class="alert alert-secondary">Ronda: ${juego.numeroRonda}</div>`;
+            if (juego.esFinDeTurno()) {
+                contadorRondaDiv.classList.add('highlight');
+                // Quitar la clase después de la animación
+                setTimeout(() => {
+                    contadorRondaDiv.classList.remove('highlight');
+                }, 500);
+            }
         }
     }
     btnIniciar.addEventListener("click", () => {
@@ -36,6 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
         resultadoDiv.innerHTML = "";
         actualizarMarcador();
         btnJugar.disabled = false;
+        actualizarMarcador(); // Esto ahora también inicializará el contador de ronda
+        contadorRondaDiv.style.display = "block"; // Asegurarse de que sea visible
+        // Mostrar el jugador actual
+        let currentPlayerName = juego.currentPlayer.nombre;
+        currentPlayer.innerHTML = `<h4 id="current-player">Turno de: ${currentPlayerName}</h4>`;
     });
     // Evento para jugar una jugada
     btnJugar.addEventListener("click", () => {
@@ -44,10 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
         juego.iniciarJugada();
         // Usar la función de animación con los valores finales de los dados
         animarDados(juego.dado1.puntos, juego.dado2.puntos);
-        actualizarMarcador();
-        // Indicate whose turn it is
-        let currentPlayerName = juego.currentPlayer.nombre;
-        currentPlayer.innerHTML = `<h2 id="current-player">Turno de: ${currentPlayerName}</div>`;
         // Verificar victoria solo al final de una ronda (después del turno del jugador 2)
         if (juego.esFinDeTurno()) {
             // Check if a player has won (more than 5 points)
@@ -105,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     actualizarMarcador();
                     // Mostrar el jugador actual
                     let currentPlayerName = juego.currentPlayer.nombre;
-                    currentPlayer.innerHTML = `<h2 id="current-player">Turno de: ${currentPlayerName}</h2>`;
+                    currentPlayer.innerHTML = `<h4 id="current-player">Turno de: ${currentPlayerName}</h4>`;
                     // Verificar victoria solo al final de una ronda
                     if (juego.esFinDeTurno()) {
                         if (juego.marcadorJugador1 > 5 || juego.marcadorJugador2 > 5) {
