@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Dados</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="container mt-5">
+
+    <div class="card p-4">
+        <h2 class="text-center">Juego de Dados</h2>
+
+        <div class="mb-3">
+            <label for="jugador1" class="form-label">Nombre del Jugador 1</label>
+            <input type="text" id="jugador1" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="jugador2" class="form-label">Nombre del Jugador 2</label>
+            <input type="text" id="jugador2" class="form-control">
+        </div>
+
+        <button id="btn-iniciar" class="btn btn-primary w-100">Iniciar Juego</button>
+        <button id="btn-jugar" class="btn btn-success w-100 mt-2" disabled>Jugar Turno</button>
+        <div id="contador-ronda" class="alert alert-secondary">Ronda: 1</div>
+        <div id="marcador" class="mt-4"></div>
+        <h2 id="current-player"></h2>
+        <div class="d-flex justify-content-around align-items-center mt-4">
+            <div class="card p-3 text-center">
+                <img id="dado1" src="img/dado1.png" width="100">
+            </div>
+            <div class="card p-3 text-center">
+                <img id="dado2" src="img/dado1.png" width="100">
+            </div>
+        </div>
+        
+        
+
+        <div id="resultado" class="mt-4"></div>
+    </div>
+
+    <script type="module" src="./dist/index.js"></script>
+</body>
+</html>

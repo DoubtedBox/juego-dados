@@ -1,19 +1,13 @@
-import { Dado } from "./Dado.js";
-
 export class Jugador {
-    public nombre: String;
-    public puntoGanado: number;
-
     /**
      *
      * @param dado1 Primer dado a lanzar
      * @param dado2 Segundo dado a lanzar
      * @return Devuelve la suma de los puntos obtenidos en ambos dados
      */
-    public lanzarDados(dado1: Dado, dado2: Dado){
+    lanzarDados(dado1, dado2) {
         dado1.lanzar();
         dado2.lanzar();
-
         // Retornar los puntos que cayeron en los dados
         return (dado1.puntos + dado2.puntos);
     }
